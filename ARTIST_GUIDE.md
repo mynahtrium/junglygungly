@@ -1,67 +1,143 @@
-# Jungle Expansion - Artist & Modeler Guide
+# Jungle Expansion - Ultimate Artist Guide
 
-This guide is for 3D modelers (Blockbench) and Texture artists working on the Jungle Expansion mod.
+**Welcome to the team!** This guide will take you through every single click required to make assets for the Jungle Expansion mod.
 
-## 🛠️ Blockbench Settings
-When starting a new model in Blockbench, use the following settings:
+---
 
-### For Entities (Monkeys, Mobs)
-*   **Project Type**: `Modded Entity`
-*   **Model Identifier**: `monkey` (or entity name)
-*   **File Name**: `MonkeyModel` (PascalCase ending in Model)
-*   **Mappings/Version**: **MojMap** (Mojang Mappings).
-    *   *Note: Do NOT use Yarn/Fabric mappings. This is a NeoForge mod.*
-    *   Target Version: **1.21+**
+## 🛠️ Phase 1: Setting Up Blockbench
+*If you haven't installed Blockbench, get it at [blockbench.net](https://www.blockbench.net).*
 
-### For Blocks & Items
-*   **Project Type**: `Java Block/Item`
-*   **Export Format**: `.json` model.
+### 1. Verification
+1.  Open Blockbench.
+2.  Go to `File` > `Plugins...` (or click the Plugin icon on the start screen).
+3.  Search for **Entity Wizard**. *Make sure it's installed (though for this guide, we will do manual setup to be safe).*
+4.  Search for **CEM Template Loader** (Optional, but good for reference).
 
-## 🐒 Modeling Entities (The Monkey)
-We use standard Vanilla Minecraft rendering (no GeckoLib yet).
+---
 
-1.  **Root Group**: All cubes/bones must be inside a single root group named `root`.
-    *   *Why?* The code expects `root.getChild("root")`.
-2.  **Bones/Pivots**: Ensure pivot points are set correctly for animation.
-    *   `head`: For looking around.
-    *   `body`, `left_arm`, `right_arm`, `left_leg`, `right_leg`, `tail`: Standard names help with animation.
-3.  **Texture Size**: Must be a power of 2 (e.g., 64x32, 64x64).
-4.  **Exporting**:
-    *   Go to `File` -> `Export` -> `Export Java Class`.
+## 🐒 Phase 2: Making a Mob (The Monkey)
+*Use this process for any animated creature.*
+
+### Step 1: Creating the Project
+1.  Open Blockbench.
+2.  Under "New Project", click **Modded Entity** (The icon looks like a Grass Block with a `Java` tag).
+3.  **Model Settings Window** appears:
+    *   **File Name**: `MonkeyModel` (PascalCase, must end in 'Model').
+    *   **Model Identifier**: `monkey` (lowercase, everything else).
+    *   **Texture Size**: `64` x `64` (or `64` x `32`).
+        *   *CRITICAL: Width and Height must be Powers of 2 (16, 32, 64, 128).*
+    *   **Confused?** Leave `Texture Size` blank for now, you can set it when making the texture.
+4.  Click **Confirm**.
+
+### Step 2: The "Root" Rule (CRITICAL)
+*Minecraft mods require a specific hierarchy.*
+1.  Look at the "Outliner" panel on the right (where groups/bones are).
+2.  There is usually nothing there.
+3.  Click the **"Add Group"** button (Folder icon with a +).
+4.  **Rename this group** to `root`.
+    *   *Right-click group -> Rename -> type "root"*
+5.  **EVERYTHING YOU MAKE MUST BE INSIDE THIS "ROOT" GROUP.**
+    *   If you make a new bone for the head, drag it *into* `root`.
+
+### Step 3: Skeleton Setup
+1.  Select the `root` group.
+2.  Click **Add Group** again. Rename it `body`.
+3.  Select `body`. Click **Add Group**. Rename it `head`.
+    *   *Now `head` is inside `body`. If you want the head to move independently (recommended), drag `head` out of `body` so it is inside `root`, just like `body`.*
+4.  **Recommended Hierarchy**:
+    ```text
+    root
+    ├── head
+    ├── body
+    ├── left_arm
+    ├── right_arm
+    ├── left_leg
+    ├── right_leg
+    └── tail
+    ```
+
+### Step 4: Modeling (The Fun Part)
+1.  Select a group (e.g., `head`).
+2.  Click **Add Cube** (Cube icon).
+3.  **Edit Panel** (Top right, "Element"):
+    *   **Position**: Moves the box.
+    *   **Size**: Changes dimension.
+    *   **Inflate**: Makes it chubby without changing UVs (use sparingly).
+    *   **Pivot Point (CRITICAL)**:
+        *   Press `P` (or use the Pivot tool).
+        *   Move the **Blue Pivot Point** to where you want the joint to rotate.
+        *   *Example: For an arm, put the pivot at the shoulder, not the center of the arm.*
+
+### Step 5: Texturing
+1.  **Texture Panel** (Bottom Left).
+2.  Click **Create Texture** (Paper icon with +).
+3.  **Settings**:
+    *   **Name**: `monkey`
+    *   **Template**: Checked (This autogenerates a texture based on your cubes!).
+    *   **Color**: Pick a base monkey brown color.
+    *   Click **Confirm**.
+4.  Your model is now colored!
+5.  To draw details, go to the **Paint** tab (Top Middle).
+    *   Using the tools on the right, draw faces, fur, etc.
+6.  **Save the Texture**:
+    *   In the Texture Panel, right-click your texture -> **Save As**.
+    *   Name: `monkey.png`
+    *   Location: `src/main/resources/assets/jungleexpansion/textures/entity/`
+
+### Step 6: Exporting the Code
+1.  Go to `File` > `Export` > **Export Java Class**.
+2.  **Popup Settings**:
     *   **Class Name**: `MonkeyModel`
     *   **Package**: `com.jungleexpansion.client.model`
-    *   **Open the file** and copy the code inside `createBodyLayer()` to send to the developer.
+3.  Click **Confirm**.
+4.  Save the `.java` file.
+5.  **Send this file to the Developer.**
 
-## 📦 Modeling Blocks & Items (Bananas, Trees)
-### Blocks
-*   **Texturing**: Keep textures in standard 16x16 resolution unless we decide on "HD".
-*   **Parents**: Use `block/cube_all` for simple blocks.
-*   **Display Settings**: IMPORTANT! Check the "Display" tab in Blockbench.
-    *   Make sure it looks right in "Third Person", "First Person", and "GUI".
-*   **Export**: Save as `blockname.json` (snake_case, e.g., `banana_bunch.json`).
+---
 
-### Items (3D)
-*   If making a 3D item (like a handheld spear or complex fruit), use `Java Block/Item` mode.
-*   If just a flat sprite, you don't need Blockbench (use Photoshop/Aseprite).
+## 🍌 Phase 3: Making Blocks (Banana Bunch)
+*Use this for static blocks.*
 
-## 🎨 Texturing Guide
-*   **Format**: `.png` only.
-*   **Transparency**: Supported.
-*   **Naming**: strictly `snake_case` (lowercase, underscores).
-    *   ✅ `palm_log.png`
-    *   ❌ `PalmLog.png`
-    *   ❌ `palm log.png`
+### Step 1: Create Project
+1.  File > New > **Java Block/Item**.
+2.  Click **Confirm**.
 
-## 📂 Where to put files?
-If you have access to the project folder:
+### Step 2: Modeling
+1.  Add Cubes. Shape them into a banana bunch.
+2.  **Display Settings** (CRITICAL):
+    *   Click the **Display** tab (Top Right).
+    *   Click on the slots (Thirdperson Right, Firstperson Right, GUI, Ground, Fixed).
+    *   Adjust scale/rotation so it looks good in the hand/inventory.
+    *   *If you skip this, the item will look giant or tiny in-game.*
 
-### Textures
+### Step 3: Texturing
+1.  Create Texture (same as entity).
+2.  Paint it.
+3.  **Save Texture**: `banana_bunch.png` -> `src/main/resources/assets/jungleexpansion/textures/block/`
+
+### Step 4: Exporting
+1.  File > Export > **Export Block/Item Model**.
+2.  Save as `banana_bunch.json` (snake_case!).
+3.  Location: `src/main/resources/assets/jungleexpansion/models/block/`
+
+---
+
+## 📂 Cheat Sheet: Where do files go?
+
+### Textures (`.png`)
 *   **Blocks**: `src/main/resources/assets/jungleexpansion/textures/block/`
 *   **Items**: `src/main/resources/assets/jungleexpansion/textures/item/`
-*   **Entities**: `src/main/resources/assets/jungleexpansion/textures/entity/`
+*   **Mobs**: `src/main/resources/assets/jungleexpansion/textures/entity/`
 
-### Models (JSON)
-*   **Block Models**: `src/main/resources/assets/jungleexpansion/models/block/`
-*   **Item Models**: `src/main/resources/assets/jungleexpansion/models/item/`
+### Models (`.json` or `.java`)
+*   **Blocks**: `src/main/resources/assets/jungleexpansion/models/block/`
+*   **Items**: `src/main/resources/assets/jungleexpansion/models/item/`
+*   **Mobs**: Send `.java` file to Dev OR put in `src/main/java/com/jungleexpansion/client/model/`
 
-For **Java Models (Entities)**, send the `.java` file to the developer to integrate.
+---
+
+## ⚠️ Common Mistakes
+1.  **Wrong Texture Size**: Using 100x100 instead of 128x128. **Game will crash.**
+2.  **Bad Naming**: "Monkey Model.png" (Spaces/Caps). Use `monkey_model.png`.
+3.  **Missing "root" Group**: Game won't find the body parts.
+4.  **Pivots not set**: Legs will swing from the center of the shin, looks broken.
