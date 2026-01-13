@@ -1,6 +1,6 @@
 # Jungle Expansion - Ultimate Artist Guide
 
-**Welcome to the team!** This guide will take you through every single click required to make assets for the Jungle Expansion mod.
+**Welcome to the team!** This guide will take you through every single click required to make assets for the Jungle Expansion mod (NeoForge 1.21).
 
 ---
 
@@ -9,9 +9,8 @@
 
 ### 1. Verification
 1.  Open Blockbench.
-2.  Go to `File` > `Plugins...` (or click the Plugin icon on the start screen).
-3.  Search for **Entity Wizard**. *Make sure it's installed (though for this guide, we will do manual setup to be safe).*
-4.  Search for **CEM Template Loader** (Optional, but good for reference).
+2.  We **DO NOT** use the "Entity Wizard" (that is for Bedrock).
+3.  We use the **Modded Entity** format.
 
 ---
 
@@ -26,17 +25,17 @@
     *   **Model Identifier**: `monkey` (lowercase, everything else).
     *   **Texture Size**: `64` x `64` (or `64` x `32`).
         *   *CRITICAL: Width and Height must be Powers of 2 (16, 32, 64, 128).*
-    *   **Confused?** Leave `Texture Size` blank for now, you can set it when making the texture.
 4.  Click **Confirm**.
 
 ### Step 2: The "Root" Rule (CRITICAL)
-*Minecraft mods require a specific hierarchy.*
+*Minecraft Java requires a specific hierarchy.*
 1.  Look at the "Outliner" panel on the right (where groups/bones are).
 2.  There is usually nothing there.
 3.  Click the **"Add Group"** button (Folder icon with a +).
 4.  **Rename this group** to `root`.
     *   *Right-click group -> Rename -> type "root"*
 5.  **EVERYTHING YOU MAKE MUST BE INSIDE THIS "ROOT" GROUP.**
+    *   *Technical Reason: Minecraft's `HierarchicalModel` system requires a single root bone to handle animations correctly. If you don't do this, the game may crash or animations won't play.*
     *   If you make a new bone for the head, drag it *into* `root`.
 
 ### Step 3: Skeleton Setup
@@ -60,9 +59,6 @@
 1.  Select a group (e.g., `head`).
 2.  Click **Add Cube** (Cube icon).
 3.  **Edit Panel** (Top right, "Element"):
-    *   **Position**: Moves the box.
-    *   **Size**: Changes dimension.
-    *   **Inflate**: Makes it chubby without changing UVs (use sparingly).
     *   **Pivot Point (CRITICAL)**:
         *   Press `P` (or use the Pivot tool).
         *   Move the **Blue Pivot Point** to where you want the joint to rotate.
@@ -76,10 +72,7 @@
     *   **Template**: Checked (This autogenerates a texture based on your cubes!).
     *   **Color**: Pick a base monkey brown color.
     *   Click **Confirm**.
-4.  Your model is now colored!
-5.  To draw details, go to the **Paint** tab (Top Middle).
-    *   Using the tools on the right, draw faces, fur, etc.
-6.  **Save the Texture**:
+4.  **Save the Texture**:
     *   In the Texture Panel, right-click your texture -> **Save As**.
     *   Name: `monkey.png`
     *   Location: `src/main/resources/assets/jungleexpansion/textures/entity/`
@@ -108,7 +101,6 @@
     *   Click the **Display** tab (Top Right).
     *   Click on the slots (Thirdperson Right, Firstperson Right, GUI, Ground, Fixed).
     *   Adjust scale/rotation so it looks good in the hand/inventory.
-    *   *If you skip this, the item will look giant or tiny in-game.*
 
 ### Step 3: Texturing
 1.  Create Texture (same as entity).
@@ -133,11 +125,3 @@
 *   **Blocks**: `src/main/resources/assets/jungleexpansion/models/block/`
 *   **Items**: `src/main/resources/assets/jungleexpansion/models/item/`
 *   **Mobs**: Send `.java` file to Dev OR put in `src/main/java/com/jungleexpansion/client/model/`
-
----
-
-## ⚠️ Common Mistakes
-1.  **Wrong Texture Size**: Using 100x100 instead of 128x128. **Game will crash.**
-2.  **Bad Naming**: "Monkey Model.png" (Spaces/Caps). Use `monkey_model.png`.
-3.  **Missing "root" Group**: Game won't find the body parts.
-4.  **Pivots not set**: Legs will swing from the center of the shin, looks broken.
