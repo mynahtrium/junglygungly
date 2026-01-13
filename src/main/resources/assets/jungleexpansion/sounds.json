@@ -1,0 +1,20 @@
+{
+    "entity.monkey.ambient": {
+        "subtitle": "subtitles.entity.monkey.ambient",
+        "sounds": [
+            "jungleexpansion:entity/monkey/ambient"
+        ]
+    },
+    "entity.monkey.hurt": {
+        "subtitle": "subtitles.entity.monkey.hurt",
+        "sounds": [
+            "jungleexpansion:entity/monkey/hurt"
+        ]
+    },
+    "entity.monkey.death": {
+        "subtitle": "subtitles.entity.monkey.death",
+        "sounds": [
+            "jungleexpansion:entity/monkey/death"
+        ]
+    }
+}

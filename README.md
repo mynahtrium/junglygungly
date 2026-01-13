@@ -1,25 +1,50 @@
+# Jungle Expansion Mod - Developer Guide
 
-Installation information
-=======
+## Overview
+This mod adds new jungle content including Monkeys, Bananas, new Trees (Palm, Banana, Mahogany), and the Dense Rainforest biome.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+## Project Structure
+- **Main Class**: `com.jungleexpansion.JungleExpansion`
+- **Registry**: `com.jungleexpansion.setup.ModRegistry`
+- **Entities**: `com.jungleexpansion.content.entity`
+- **WorldGen**: `com.jungleexpansion.content.worldgen`
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+## Adding Assets
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+### Textures
+Place textures in `src/main/resources/assets/jungleexpansion/textures`:
+- **Items**: `/item/banana.png`
+- **Blocks**: `/block/palm_log.png`, `/block/banana_bunch.png`, etc.
+- **Entities**: `/entity/monkey.png`
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+### Models
+- **Block Models**: `src/main/resources/assets/jungleexpansion/models/block`
+- **Item Models**: `src/main/resources/assets/jungleexpansion/models/item`
+- **Entity Animations**: Use standard GeckoLib or Vanilla EntityModel formats.
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+### Sounds
+1. Add sound files to `src/main/resources/assets/jungleexpansion/sounds/`.
+2. Edit `src/main/resources/assets/jungleexpansion/sounds.json` to register them.
+
+## Data Generation
+To regenerate blockstates, loot tables, and tags:
+1. Run `./gradlew runData`
+2. Check `src/generated/resources/` for output.
+
+## Adding New Content
+1. **New Blocks/Items**: Add entry to `ModRegistry.java`.
+2. **New Entity**: 
+   - Create Entity class in `content/entity`.
+   - Register in `ModRegistry`.
+   - Create Renderer/Model in `client`.
+   - Register Renderer in `ClientSetup`.
+   - Add Attributes in `ModEvents`.
+
+## Extending WorldGen
+Modify `ModBiomes.java` to adjust biome parameters.
+Modify `ModSurfaceRules.java` to change ground composition.
+Trees are defined via `ModTreeGrowers` and require corresponding `ConfiguredFeature` and `PlacedFeature` JSONs in `src/main/resources/data/jungleexpansion/worldgen/`.
+
+## Running
+- **Client**: `./gradlew runClient`
+- **Server**: `./gradlew runServer`

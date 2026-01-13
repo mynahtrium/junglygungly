@@ -1,0 +1,19 @@
+{
+    "itemGroup.jungleexpansion": "Jungle Expansion",
+    "item.jungleexpansion.banana": "Banana",
+    "block.jungleexpansion.banana_bunch": "Banana Bunch",
+    "entity.jungleexpansion.monkey": "Monkey",
+    "block.jungleexpansion.palm_log": "Palm Log",
+    "block.jungleexpansion.palm_planks": "Palm Planks",
+    "block.jungleexpansion.palm_leaves": "Palm Leaves",
+    "block.jungleexpansion.palm_sapling": "Palm Sapling",
+    "block.jungleexpansion.banana_log": "Banana Log",
+    "block.jungleexpansion.banana_planks": "Banana Planks",
+    "block.jungleexpansion.banana_leaves": "Banana Leaves",
+    "block.jungleexpansion.banana_sapling": "Banana Sapling",
+    "block.jungleexpansion.mahogany_log": "Mahogany Log",
+    "block.jungleexpansion.mahogany_planks": "Mahogany Planks",
+    "block.jungleexpansion.mahogany_leaves": "Mahogany Leaves",
+    "block.jungleexpansion.mahogany_sapling": "Mahogany Sapling",
+    "biome.jungleexpansion.dense_rainforest": "Dense Rainforest"
+}
